@@ -1,38 +1,48 @@
-def gv
+#!/usr/bin/env groovy
+library identifier: 'jenkins-shared@main', retriever: modernSCM(
+        [
+                $class: 'GitSCMSource',
+                remote: 'https://gitlab.com/mohamad.dayoubit/jenkins-shared.git',
+                credentialsId: 'GitLab-Credentials'
+        ]
+)
 
 pipeline {
     agent any
+    tools {
+	    maven 'Maven'
+	}
+    
     stages {
-        stage("init") {
+        stage("incrementing version") {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    incrementVersion()
                 }
             }
         }
         stage("build jar") {
             steps {
                 script {
-                    echo "building jar"
-                    //gv.buildJar()
+                    buildJar()
                 }
             }
         }
-        stage("build image") {
+        stage("build Image") {
             steps {
                 script {
-                    echo "building image"
-                    //gv.buildImage()
+                    buildImage "mohamaddayoub/my-repo:$IMAGE_NAME"
+                    dockerLogin()
+                    dockerPush "mohamaddayoub/my-repo:$IMAGE_NAME"
                 }
             }
         }
+        
         stage("deploy") {
             steps {
                 script {
-                    echo "deploying"
-                    //gv.deployApp()
-                }
-            }
-        }
-    }   
-}
+                    deployEC2()
+                     }
+                 }
+    }
+}}
