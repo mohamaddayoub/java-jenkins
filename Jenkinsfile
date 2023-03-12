@@ -18,6 +18,7 @@ pipeline {
         stage("incrementing version") {
             steps {
                 script {
+                    echo 'starting....'
                     incrementVersion()
                 }
             }
