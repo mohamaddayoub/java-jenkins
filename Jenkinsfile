@@ -33,9 +33,9 @@ pipeline {
         stage("build Image") {
             steps {
                 script {
-                    buildImage "mohamaddayoub/my-repo:$IMAGE_NAME"
+                    buildImage 'mohamaddayoub/my-repo:1.1.3'
                     dockerLogin()
-                    dockerPush "mohamaddayoub/my-repo:$IMAGE_NAME"
+                    dockerPush 'mohamaddayoub/my-repo:1.1.3'
                 }
             }
         }
@@ -43,7 +43,7 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    deployEC2()
+                    echo "deploy...."
                      }
                  }
     }
