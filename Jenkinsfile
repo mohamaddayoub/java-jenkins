@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+
 library identifier: 'jenkins-shared@main', retriever: modernSCM(
         [
                 $class: 'GitSCMSource',
