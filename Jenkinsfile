@@ -50,9 +50,12 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying Docker image to EC2...'
-                    def IMAGE = "mohamaddayoub/my-repo:${IMAGE_NAME}"
+                    def image = "mohamaddayoub/my-repo:${IMAGE_NAME}"
+                    echo 'OK'
                     def shellCmd = "bash ./docker.Cmds.sh ${IMAGE}"
+                     echo 'OK'
                     def ec2Instance = "ec2-user@18.119.113.157"
+                     echo 'OK'
 
                     sshagent(['ec2-server']) {
                         sh "scp -o StrictHostKeyChecking=no docker.Cmds.sh ${ec2Instance}:/home/ec2-user"
