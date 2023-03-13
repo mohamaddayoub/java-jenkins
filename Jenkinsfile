@@ -33,11 +33,9 @@ pipeline {
         stage("build Image") {
             steps {
                 script {
-                    buildImage 'mohamaddayoub/my-repo:1.1.3'
-                    echo "start building"
+                    buildImage()
                     dockerLogin()
-
-                    dockerPush 'mohamaddayoub/my-repo:1.1.3'
+                    dockerPush()
                 }
             }
         }
