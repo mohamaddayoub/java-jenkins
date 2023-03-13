@@ -18,7 +18,7 @@ pipeline {
         stage('Increment Version') {
             steps {
                 script {
-                    echo "Incrementing App Version..."
+                    echo "Incrementing App Version...."
                     sh "mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.nextMajorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion} versions:commit"
                     def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                     def version = matcher[0][1]
