@@ -50,9 +50,9 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying Docker image to EC2...'
-                    def image = "mohamaddayoub/my-repo:${IMAGE_NAME}"
+                    def image = "mohamaddayoub/my-repo:${env.IMAGE_NAME}"
                     echo 'OK'
-                    def shellCmd = "bash ./docker.Cmds.sh ${IMAGE}"
+                    def shellCmd = "bash ./docker.Cmds.sh ${image}"
                      echo 'OK'
                     def ec2Instance = "ec2-user@18.119.113.157"
                      echo 'OK'
