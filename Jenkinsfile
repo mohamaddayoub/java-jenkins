@@ -64,9 +64,27 @@ pipeline {
                         sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
 
                     }
+
                 }
             }
         }
+        stage('commit version update') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'Gitlab-Credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                        
+                        sh 'git config --global user.email "jenkins@example.com"'
+                        sh 'git config --global user.name "jenkins"'
+                        sh "git remote set-url origin https://${USER}:${PASS}@gitlab.com:mohamad.dayoubit/java-jenkins.git"
+                        sh "git pull git@gitlab.com:mohamad.dayoubit/java-jenkins.git main"
+                        sh 'git add .'
+                        sh 'git commit -m "The version is updated"'
+                        sh 'git push origin HEAD:main'
+                    }
+                }
+            }
+        }
+
 
     }
 }
