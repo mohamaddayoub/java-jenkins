@@ -51,17 +51,18 @@ pipeline {
                 script {
                     echo 'Deploying Docker image to EC2...'
                     def image = "mohamaddayoub/my-repo:$env.IMAGE_NAME"
-                    echo 'OK'
+                   
                     def shellCmd = "bash ./docker.Cmds.sh $image"
-                     echo 'OK'
+                    
                     def ec2Instance = "ec2-user@18.119.113.157"
-                     echo 'OK'
-                    def cmd = "docker pull hello"
-                    def cmd1 = "mkdir test"
+                    
 
                     sshagent(['ec2-server']) {
                         
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.119.113.157 ${cmd}"
+                        sh "scp -o StrictHostKeyChecking=no docker.Cmds.sh ${ec2Instance}:/home/ec2-user"
+                        sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${ec2Instance}:/home/ec2-user"
+                        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
+
                     }
                 }
             }
