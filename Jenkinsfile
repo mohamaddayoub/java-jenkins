@@ -57,10 +57,11 @@ pipeline {
                     def ec2Instance = "ec2-user@18.119.113.157"
                      echo 'OK'
                     def cmd = "docker pull hello"
+                    def cmd1 = "mkdir test"
 
                     sshagent(['ec2-server']) {
                         
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.119.113.157 ${cmd}"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.119.113.157 ${cmd1}"
                     }
                 }
             }
