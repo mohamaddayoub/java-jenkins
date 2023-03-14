@@ -54,13 +54,13 @@ pipeline {
                     echo 'OK'
                     def shellCmd = "bash ./docker.Cmds.sh $image"
                      echo 'OK'
-                    def ec2Instance = "ec2-user@3.133.132.250"
+                    def ec2Instance = "ec2-user@18.119.113.157"
                      echo 'OK'
                     def cmd = "docker pull hello"
 
                     sshagent(['ec2-server']) {
                         
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@3.133.132.250 ${cmd}"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.119.113.157 ${cmd}"
                     }
                 }
             }
