@@ -18,7 +18,7 @@ pipeline {
         stage('Increment Version') {
             steps {
                 script {
-                    echo "Incrementing App Version....."
+                    echo "Incrementing Application Version....."
                     sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.nextMajorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.incrementalVersion} versions:commit"
                     def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                     def version = matcher[0][1]
@@ -68,23 +68,5 @@ pipeline {
                 }
             }
         }
-        stage('commit version update') {
-            steps {
-                script {
-                    sh "cd /var/jenkins_home/workspace/java-jenkins_main"
-                    withCredentials([usernamePassword(credentialsId: 'GitLab-Credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh 'git config --global user.email "jenkins@example.com"'
-                        sh 'git config --global user.name "jenkins"'
-                        echo "OK"
-                        sh "git remote set-url origin git@gitlab.com:mohamad.dayoubit/java-jenkins.git"
-                        sh 'git add .'
-                        sh 'git commit -m "The version is updated"'
-                        sh 'git -o StrictHostKeyChecking=no push origin HEAD:main'
-                    }
-                }
-            }
-        }
-
-
     }
 }
