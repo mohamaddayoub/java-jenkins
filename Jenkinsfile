@@ -73,12 +73,10 @@ pipeline {
                 script {
                     sh "cd /var/jenkins_home/workspace/java-jenkins_main"
                     withCredentials([usernamePassword(credentialsId: 'GitLab-Credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh "git config --global --add safe.directory /var/jenkins_home/workspace/java-jenkins_main"
                         sh 'git config --global user.email "jenkins@example.com"'
                         sh 'git config --global user.name "jenkins"'
                         echo "OK"
-                        sh "git remote set-url origin https://${USER}:${PASS}@gitlab.com:mohamad.dayoubit/java-jenkins.git"
-                        sh "git pull https://${USER}:${PASS}@gitlab.com:mohamad.dayoubit/java-jenkins.git main"  
+                        sh "git remote set-url origin https://$USER:$PASS@gitlab.com:mohamad.dayoubit/java-jenkins.git"
                         sh 'git add .'
                         sh 'git commit -m "The version is updated"'
                         sh 'git push origin HEAD:main'
