@@ -50,15 +50,15 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying Docker image to EC2...'
-                    def image = "mohamaddayoub/my-repo:${env.IMAGE_NAME}"
+                    def image = "mohamaddayoub/my-repo:$env.IMAGE_NAME"
                     echo 'OK'
-                    def shellCmd = "bash ./docker.Cmds.sh ${image}"
+                    def shellCmd = "bash ./docker.Cmds.sh $image"
                      echo 'OK'
-                    def ec2Instance = "ec2-user@18.119.113.157"
+                    def ec2Instance = "ec2-user@3.133.132.250"
                      echo 'OK'
 
                     sshagent(['ec2-server']) {
-                        sh "scp -o StrictHostKeyChecking=no docker.Cmds.sh ${ec2Instance}:/home/ec2-user"
+                        sh ('scp -o StrictHostKeyChecking=no docker.Cmds.sh ${ec2Instance}:/home/ec2-user')
                         sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${ec2Instance}:/home/ec2-user"
                         sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
                     }
