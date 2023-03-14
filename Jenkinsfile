@@ -80,7 +80,7 @@ pipeline {
                         sh "git remote set-url origin https://${USER}:${PASS}@gitlab.com:mohamad.dayoubit/java-jenkins.git"  
                         sh 'git add .'
                         sh 'git commit -m "The version is updated"'
-                        sh 'git push origin HEAD:main'
+                        sh 'git push'
                     }
                 }
             }
