@@ -79,7 +79,7 @@ pipeline {
                         sh "git remote set-url origin git@gitlab.com:mohamad.dayoubit/java-jenkins.git"
                         sh 'git add .'
                         sh 'git commit -m "The version is updated"'
-                        sh 'git push origin HEAD:main'
+                        sh 'git -o StrictHostKeyChecking=no push origin HEAD:main'
                     }
                 }
             }
