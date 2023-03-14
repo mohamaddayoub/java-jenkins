@@ -61,7 +61,7 @@ pipeline {
 
                     sshagent(['ec2-server']) {
                         
-                        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.119.113.157 ${cmd1}"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.119.113.157 ${cmd}"
                     }
                 }
             }
