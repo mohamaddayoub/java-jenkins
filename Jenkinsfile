@@ -54,7 +54,7 @@ pipeline {
                    
                     def shellCmd = "bash ./docker.Cmds.sh $image"
                     
-                    def ec2Instance = "ec2-user@18.119.113.157"
+                    def ec2Instance = "ec2-user@3.144.255.198"
                     
 
                     sshagent(['ec2-server']) {
