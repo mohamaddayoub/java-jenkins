@@ -79,7 +79,6 @@ pipeline {
 			    sh 'git config --global user.name "Jenkins"'
 			    sh 'git add .'
 			    sh 'git commit -m "Jenkins commit"'
-			  
 			    sh 'git push -u https://mohamaddayoub:${PASS}@github.com/mohamaddayoub/java-jenkins.git HEAD:main'
 			}
 		      }
