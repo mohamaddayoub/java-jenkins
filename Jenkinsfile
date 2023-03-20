@@ -72,18 +72,18 @@ pipeline {
            
  	 	steps {
 		    script {
-		      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+		      
 			withCredentials([usernamePassword(credentialsId: 'GitHub-Credentials', passwordVariable: 'PASS', usernameVariable: 'USR')]) {
-			    def encodedPassword = URLEncoder.encode("$PASS",'UTF-8')
-			    sh 'git config user.email "jenkins@example.com" '
-			    sh 'git config user.name "jenkins" '
-			    sh "git add ."
-			    sh "git commit -m 'Triggered Build: ${env.BUILD_NUMBER}'"
-			    sh "git push origin HEAD:main"
+			    
+			    sh 'git config --global user.email "jenkins@example.com"'
+			    sh 'git config --global user.name "Jenkins"'
+			    sh 'git add .'
+			    sh 'git commit -m "Jenkins commit"'
+			    sh 'git push https://${USR}:${PASS}@github.com/mohamaddayoub/java-jenkins.git'
 			}
 		      }
 		    }
-  		}
+  		
   	  }
 	}
 }
