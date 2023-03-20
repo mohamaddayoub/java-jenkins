@@ -79,7 +79,7 @@ pipeline {
 			    sh 'git config user.name "jenkins" '
 			    sh "git add ."
 			    sh "git commit -m 'Triggered Build: ${env.BUILD_NUMBER}'"
-			    sh "git push https://${USR}:${encodedPassword}@github.com/${USR}/java-jenkins.git HEAD:main"
+			    sh "git push https://${USR}:${encodedPassword}@github.com/${USR}/java-jenkins.git"
 			}
 		      }
 		    }
