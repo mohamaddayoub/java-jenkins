@@ -74,12 +74,12 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'GitHub-Credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh 'git config user.email "jenkins@example.com"'
                         sh 'git config user.name "Jenkins"'
-                        
-  
-                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/mohamaddayoub/java-jenkins.git" 
 			sh 'git add .'
                         sh 'git commit -m "ci: version bump"'
-                        sh 'git push -u origin HEAD'
+			 
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/mohamaddayoub/java-jenkins.git" 
+			
+                        sh 'git push -u origin HEAD:main'
                     }
                 }
             }
