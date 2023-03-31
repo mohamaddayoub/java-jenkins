@@ -64,7 +64,7 @@
     default_route_table_id = aws_vpc.myapp_vpc.default_route_table_id
 
     route {
-        cidr_block = var.subnet_cidr_block
+        cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.myapp_gw.id
 
         }
@@ -92,7 +92,7 @@
         ami = data.aws_ami.latest_amazon_linux.id
         instance_type = var.instance_type
         subnet_id = aws_subnet.myapp_subnet.id
-        availability_zone = "us-east-2a"
+        availability_zone = var.az
         key_name = "jenkins-server"
         associate_public_ip_address = true
         vpc_security_group_ids = [aws_default_security_group.default.id]
