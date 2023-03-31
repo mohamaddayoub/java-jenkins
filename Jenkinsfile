@@ -45,24 +45,47 @@ pipeline {
             }
         }
         
-    
-        stage('deploy') {
+        stage('provision server') {
+            environment {
+                AWS_ACCESS_KEY_ID = Credentials('aws-ak	')
+                AWS_SECRET_ACCESS_KEY = Credentials('aws-sak')
+                TF_VAR_environment = "test"
+            }
             steps {
                 script {
+                    dir('terraform') {  
+                        sh "terraform init"
+                        sh "terraform apply -auto-approve"
+                        EC2_PUBLIC_IP = sh(
+                            script: "terraform output ec2_public_ip",
+                            returnStdout: true
+                        ).trim()
+                    }
+                }
+            }
+        }
+    
+        stage('deploy') {
+            environment {
+                DOCKER_CREDS = Credentials('DockerHub-Credentials')
+            }
+
+            steps {
+                script {
+                    echo "waiting for EC2 server to initialize" 
+                    sleep(time: 90, unit: "SECONDS")
+
                     echo 'Deploying Docker image to EC2...'
-                    def image = "mohamaddayoub/my-repo:$env.IMAGE_NAME"
-                   
-                    def shellCmd = "bash ./docker.Cmds.sh $image"
-                    
-                    def ec2Instance = "ec2-user@3.144.255.198"
-                    
+                    echo "${EC2_PUBLIC_IP} is the public IP for the server"
+
+                    def image = "mohamaddayoub/my-repo:$env.IMAGE_NAME"                  
+                    def shellCmd = "bash ./docker.Cmds.sh $image ${DOCKER_CREDS_USR} ${DOCKER_CREDS_PSW}"                 
+                    def ec2Instance = "ec2-user@${EC2_PUBLIC_IP}" 
 
                     sshagent(['ec2-server']) {
-                        
                         sh "scp -o StrictHostKeyChecking=no docker.Cmds.sh ${ec2Instance}:/home/ec2-user"
                         sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${ec2Instance}:/home/ec2-user"
                         sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
-
                     }
 
                 }
@@ -71,10 +94,8 @@ pipeline {
     	stage('commit version update') {
            
  	 	steps {
-		    script {
-		      
-			withCredentials([string(credentialsId: 'GitHubToken', variable: 'PASS')]) {
-			    
+		    script {     
+			withCredentials([string(credentialsId: 'GitHubToken', variable: 'PASS')]) {    
 			    sh 'git config --global user.email "jenkins@example.com"'
 			    sh 'git config --global user.name "Jenkins"'
 			    sh 'git add .'
