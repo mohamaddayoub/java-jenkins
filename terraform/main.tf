@@ -22,56 +22,56 @@
     }
 
     resource "aws_default_security_group" "default" {
-    vpc_id = aws_vpc.myapp_vpc.id
+        vpc_id = aws_vpc.myapp_vpc.id
 
-    ingress {
-        from_port = 22
-        to_port   = 22
-        protocol  = "-1"
-        cidr_blocks = [var.my_ip]
+        ingress {
+            from_port = 22
+            to_port   = 22
+            protocol  = "tcp"
+            cidr_blocks = [var.my_ip]
 
-    }
-    ingress {
-        protocol  = "-1"
-        from_port = 8080
-        to_port   = 8080
-        cidr_blocks = [var.my_ip]
+        }
+        ingress {
+            protocol  = "tcp"
+            from_port = 8080
+            to_port   = 8080
+            cidr_blocks = [var.my_ip]
 
-    }
+        }
 
-    egress {
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+        egress {
+            from_port   = 0
+            to_port     = 0
+            protocol    = "-1"
+            cidr_blocks = ["0.0.0.0/0"]
+        }
 
-        tags = {
-            Name = "${var.environment}-sg"
-     }
+            tags = {
+                Name = "${var.environment}-sg"
+        }
 
     }
 
     resource "aws_internet_gateway" "myapp_gw" {
-    vpc_id = aws_vpc.myapp_vpc.id
+        vpc_id = aws_vpc.myapp_vpc.id
 
-    tags = {
-        Name = "${var.environment}-gw"
-        }
+        tags = {
+            Name = "${var.environment}-gw"
+            }
     }
 
     resource "aws_default_route_table" "myapp_rt" {
-    default_route_table_id = aws_vpc.myapp_vpc.default_route_table_id
+        default_route_table_id = aws_vpc.myapp_vpc.default_route_table_id
 
-    route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.myapp_gw.id
+        route {
+            cidr_block = "0.0.0.0/0"
+            gateway_id = aws_internet_gateway.myapp_gw.id
 
-        }
+            }
 
-    tags = {
-        Name = "${var.environment}-rt"
-        }
+        tags = {
+            Name = "${var.environment}-rt"
+            }
     }
 
     data "aws_ami" "latest_amazon_linux" {
