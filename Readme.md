@@ -2,7 +2,7 @@ Integration of #terraform with #jenkins.
 
 
 
-In this project, I used Git, GitHub, DockerHub, Docker, Docker-compose, Jenkins (Shared Library - Credentials), Terraform (Provision Server, Remote State, S3), AWS, Linux commands, and Versioning App.
+In this project, I used Git,GitHub (webhook), DockerHub, Docker, Docker-compose, Jenkins (Shared Library - Credentials), Terraform (Provision Server, Remote State, S3), AWS, Linux commands, and Versioning App.
 
 
 
